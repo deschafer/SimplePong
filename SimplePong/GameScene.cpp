@@ -5,13 +5,16 @@
 
 const static int BallWidth = 10;
 const static int BallHeight = 10;
-const static int PaddleHeight = 90;
+const static int BallSpeed = 5;
+const static int PaddleHeight = 15;
 const static int PaddleWidth = 90;
 
 
 GameScene::GameScene() : 
 	m_DividingLine(0, Game::Instance()->GetWndHeight() / 2,
-		Game::Instance()->GetWndWidth(), 0.5)
+		Game::Instance()->GetWndWidth(), 0.5),
+	m_TopScore(0),
+	m_BottomScore(0)
 {
 	SetScene();	// Color the Scene
 
@@ -21,7 +24,7 @@ GameScene::GameScene() :
 		Game::Instance()->GetWndHeight() / 2,
 		BallWidth,
 		BallHeight,
-		QVector2D(0, (rand() % 2 == 0) ? -3 : 3));
+		QVector2D(0, (rand() % 2 == 0) ? -BallSpeed : BallSpeed));
 	addItem(m_PongBall);	// Add this item to this scene
 
 	// Creating the players paddle
@@ -35,7 +38,7 @@ GameScene::GameScene() :
 	// Creating the players paddle
 	m_ComputerPaddle = new ComputerPaddle(
 		QRect((Game::Instance()->GetWndWidth() / 2) - (PaddleWidth / 2),
-			Game::Instance()->GetWndHeight() * 0.1,
+			Game::Instance()->GetWndHeight() * 0.1 - PaddleHeight,
 			PaddleWidth,
 			PaddleHeight));
 	addItem(m_ComputerPaddle);
@@ -45,6 +48,11 @@ GameScene::GameScene() :
 	m_PlayerPaddle->setFocus();
 
 	m_ComputerPaddle->AddItemsToScene(this);
+	m_ComputerPaddle->SetPaddleMovementSpeed(100);
+}
+
+GameScene::~GameScene()
+{
 }
 
 //
@@ -63,9 +71,6 @@ void GameScene::SetScene()
 	setBackgroundBrush(Qt::black);
 }
 
-GameScene::~GameScene()
-{
-}
 
 //
 // ResetBall()
@@ -83,6 +88,6 @@ void GameScene::ResetBall()
 		Game::Instance()->GetWndHeight() / 2,
 		BallWidth,
 		BallHeight,
-		QVector2D(0, (rand() % 2 == 0) ? -3 : 3));
+		QVector2D(0, (rand() % 2 == 0) ? -BallSpeed : BallSpeed));
 	addItem(m_PongBall);	// Add this item to this scene
 }

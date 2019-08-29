@@ -53,7 +53,7 @@ void Ball::Update()
 	// Checking the north wall -- will be a goal zone
 	if (y() < (0 - rect().height()))
 	{
-		Game::Instance()->AddBottomScore();
+		Game::Instance()->GetGameScene()->AddBottomScore();
 		Reset();
 	}
 	// Checking the east wall
@@ -65,7 +65,7 @@ void Ball::Update()
 	// Checking the south wall -- will be a goal zone
 	if (y() > Game::Instance()->GetWndHeight())
 	{
-		Game::Instance()->AddTopScore();
+		Game::Instance()->GetGameScene()->AddTopScore();
 		Reset();
 	}
 
@@ -110,7 +110,7 @@ void Ball::Update()
 	setPos(x() + m_Velocity.x(), y() + m_Velocity.y());
 
 	// Finally check if the ball has moved out of the field for some reason
-	if (x() < 0 || x() > Game::Instance()->GetWndWidth()) Reset();
+	if (x() < -rect().width() || x() > Game::Instance()->GetWndWidth()) Reset();
 }
 
 //

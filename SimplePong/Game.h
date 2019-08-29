@@ -28,9 +28,6 @@ private:
 	int m_WndWidth;
 	int m_WndHeight;
 
-	int m_TopScore;
-	int m_BottomScore;
-
 public:
 
 	static Game* Instance()		// Returns pointer to active class
@@ -47,9 +44,6 @@ public:
 	QGraphicsView* GetView() { return m_View; }
 	GameScene* GetGameScene() { return m_GameScene; }
 	
-	void AddTopScore() { m_TopScore++; }
-	void AddBottomScore() { m_TopScore++; }
-
 
 	virtual ~Game();
 };

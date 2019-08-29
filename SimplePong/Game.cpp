@@ -7,9 +7,7 @@ const static int WndHeight = 700;
 
 Game::Game() : 
 	m_WndWidth(WndWidth),
-	m_WndHeight(WndHeight),
-	m_TopScore(0),
-	m_BottomScore(0)
+	m_WndHeight(WndHeight)
 {
 }
 
