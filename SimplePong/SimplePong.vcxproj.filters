@@ -80,6 +80,9 @@
     <QtMoc Include="ComputerPaddle.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="StartScene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="SimplePong.ui">
@@ -93,9 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StartScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PaddleRect.h">

@@ -10,6 +10,8 @@
 #include "StartScene.h"
 #include "GameScene.h"
 
+enum class Difficulty { Easy, Medium, Impossible};
+
 // Main class for the game that handles scene and view management
 // and storage.
 
@@ -22,11 +24,12 @@ private:
 
 	static Game* m_Instance;	// Pointer to active class instance
 	QGraphicsView* m_View;		// The main view of the application
-	GameScene* m_GameScene;
-	StartScene* m_StartScene;
+	GameScene* m_GameScene;		// Scene where the actual game of pong takes place
+	StartScene* m_StartScene;	// First menu scene on game startup
+	int m_WndWidth;				// Window dimensions
+	int m_WndHeight;			// ..
+	Difficulty m_GameDifficulty;// The current challenge setting
 
-	int m_WndWidth;
-	int m_WndHeight;
 
 public:
 
@@ -40,10 +43,10 @@ public:
 	int GetWndWidth() { return m_WndWidth; }
 	int GetWndHeight() { return m_WndHeight; }
 	void Initialize();
-
 	QGraphicsView* GetView() { return m_View; }
 	GameScene* GetGameScene() { return m_GameScene; }
-	
+	void SetGameScene();
+	void SetDifficulty(Difficulty Diff) { m_GameDifficulty = Diff; m_GameScene->SetDifficulty(Diff); }
 
 	virtual ~Game();
 };

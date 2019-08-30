@@ -22,9 +22,9 @@ Paddle::Paddle(QRect Rect) :
 	connect(m_UpdateTimer, SIGNAL(timeout()), this, SLOT(Update()));
 	m_UpdateTimer->start(10);
 
-	m_LeftRect.SetReflectionAngle(QVector2D(-2, 0));
+	m_LeftRect.SetReflectionAngle(QVector2D(-1, 0));
 	m_MiddleRect.SetReflectionAngle(QVector2D(0, 0));
-	m_RightRect.SetReflectionAngle(QVector2D(2, 0));
+	m_RightRect.SetReflectionAngle(QVector2D(1, 0));
 
 	m_LeftRect.SetParentPaddle(this);
 	m_MiddleRect.SetParentPaddle(this);

@@ -2,6 +2,7 @@
 #include "Game.h"
 
 #include <qlist.h>
+#include <qgraphicsproxywidget.h>
 
 Ball::Ball()
 {
@@ -74,12 +75,20 @@ void Ball::Update()
 	PaddleRect* CollidingPaddle;								// The paddle that has been hit
 	QList<QGraphicsItem *> CollidingItems = collidingItems();	// The list of items being hit
 
+	for (int i = 0; i < CollidingItems.size(); i++)
+	{
+		if (typeid(*(CollidingItems[i])) == typeid(QGraphicsProxyWidget))
+		{
+			CollidingItems.clear();
+		}
+	}
+
 	// If we have hit more than one, just reflect in order to reset the ball
 	if (CollidingItems.size() > 1)
 	{
 		m_Velocity.setY(-m_Velocity.y());
 	}
-	else if(CollidingItems.size())
+	else if(CollidingItems.size() == 1)
 	{
 		// Check if we have hit the paddle
 		if (typeid(*(CollidingItems[0])) == typeid(PaddleRect))
@@ -90,7 +99,7 @@ void Ball::Update()
 
 			if (CollidingPaddle->GetPaddlePart() != PaddleRectPart::Middle)
 			{
-				m_Velocity.setX(CollidingPaddle->GetReflectionAngle().x());
+				m_Velocity.setX(m_Velocity.x() + CollidingPaddle->GetReflectionAngle().x());
 			}
 
 			if (CollidingPaddle->GetParentPaddle()->IsMoving())
@@ -107,6 +116,7 @@ void Ball::Update()
 		}
 	}
 
+	///m_Velocity.normalize();
 	setPos(x() + m_Velocity.x(), y() + m_Velocity.y());
 
 	// Finally check if the ball has moved out of the field for some reason

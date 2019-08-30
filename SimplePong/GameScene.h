@@ -10,24 +10,29 @@
 #include "ComputerPaddle.h"
 
 #include <qdebug.h>
+#include <qlabel.h>
 
+enum class Difficulty;
 
 //
-//
-//
+// The game scene that contains all of the essential game objects and data
+// and manages the game itself.
 //
 
 class GameScene : public QGraphicsScene
 {
-	Q_OBJECT
+	Q_OBJECT // all QObjects need this here
 private:
 
 	Ball* m_PongBall;	
 	PlayerPaddle* m_PlayerPaddle;
 	ComputerPaddle* m_ComputerPaddle;
-	QLabel* m_TopScore;
-	QLabel* m_BottomScore;
+	QLabel* m_TopScoreLabel;
+	int m_TopScore;
+	QLabel* m_BottomScoreLabel;
+	int m_BottomScore;
 	QGraphicsRectItem m_DividingLine;
+	Difficulty m_Difficulty;
 
 	void SetScene();
 public:
@@ -38,13 +43,17 @@ public:
 	virtual ~GameScene();
 
 	void AddTopScore() { 
-		qDebug("Top Score Added");
-		m_TopScore++; 
+		m_TopScore++;
+		QString TopScore = std::to_string(m_TopScore).c_str();
+		m_TopScoreLabel->setText(TopScore);
 	}
 	void AddBottomScore() { 
-		qDebug("Bottom Score Added");
-		m_TopScore++; 
+		m_BottomScore++; 
+		QString BottomScore = std::to_string(m_BottomScore).c_str();
+		m_BottomScoreLabel->setText(BottomScore);
 	}
+	void SetDifficulty(Difficulty Diff) { m_Difficulty = Diff; }
+	void Initialize();
 
 public slots:
 	void ResetBall();
