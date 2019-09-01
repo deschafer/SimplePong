@@ -32,9 +32,9 @@ Paddle::Paddle(QRect Rect) :
 	m_UpdateTimer->start(10);
 
 	// Set the reflection angles for each of the respective paddle parts
-	m_LeftRect.SetReflectionAngle(QVector2D(-1, 0));
+	m_LeftRect.SetReflectionAngle(QVector2D(-0.5, 0));
 	m_MiddleRect.SetReflectionAngle(QVector2D(0, 0));
-	m_RightRect.SetReflectionAngle(QVector2D(1, 0));
+	m_RightRect.SetReflectionAngle(QVector2D(0.5, 0));
 
 	m_LeftRect.SetParentPaddle(this);
 	m_MiddleRect.SetParentPaddle(this);

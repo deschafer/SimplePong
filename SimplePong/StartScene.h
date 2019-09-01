@@ -36,6 +36,7 @@ public:
 
 public slots:
 
+	// Handlers for each of the corresponding buttons
 	void Play();
 	void SetEasy();
 	void SetMedium();

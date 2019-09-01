@@ -14,13 +14,14 @@ Ball::Ball()
 }
 
 //
-//
+// Ball()
 //
 //
 Ball::Ball(int X, int Y, int Width, int Height, QVector2D Velocity) :
 	QGraphicsEllipseItem(X, Y, Width, Height),
 	m_Velocity(Velocity),
-	m_OffTheMap(false)
+	m_OffTheMap(false),
+	m_PaddleHit(false)
 {
 	// Setting the position and dimensions
 	setRect(0, 0, Width, Height);
@@ -32,7 +33,7 @@ Ball::Ball(int X, int Y, int Width, int Height, QVector2D Velocity) :
 	m_BallTimer = new QTimer();
 	// Connecting the slot
 	connect(m_BallTimer, SIGNAL(timeout()), this, SLOT(Update()));
-	m_BallTimer->start(10);
+	m_BallTimer->start(2);
 
 	// Setting the brush so the internal color is white
 	setBrush(Qt::white);
@@ -51,6 +52,11 @@ Ball::~Ball()
 //
 void Ball::Update()
 {
+
+	static qreal PrevX = x();
+	static qreal PrevY = y();
+	int HalfHeight = Game::Instance()->GetWndHeight() / 2;
+
 	// Checking if we are of the map and should return immediately
 	if (m_OffTheMap) return;
 
@@ -59,6 +65,8 @@ void Ball::Update()
 	{
 		// Then we flip the x velocity
 		m_Velocity.setX(-m_Velocity.x());
+		m_PaddleHit = false;
+
 	}
 	// Checking the north wall -- will be a goal zone
 	if (y() < (0 - rect().height()))
@@ -71,6 +79,7 @@ void Ball::Update()
 	{
 		// Then we flip the x velocity
 		m_Velocity.setX(-m_Velocity.x());
+		m_PaddleHit = false;
 	}
 	// Checking the south wall -- will be a goal zone
 	if (y() > Game::Instance()->GetWndHeight())
@@ -78,6 +87,20 @@ void Ball::Update()
 		Game::Instance()->GetGameScene()->AddTopScore();
 		Reset();
 	}
+
+	if (PrevY < HalfHeight &&
+		y() >= HalfHeight)
+	{
+		m_PaddleHit = false;
+	}
+	else if (PrevY > HalfHeight &&
+		y() <= HalfHeight)
+	{
+		m_PaddleHit = false;
+	}
+
+	PrevX = x();
+	PrevY = y();
 
 	// Check for collisions with a paddle
 
@@ -103,15 +126,19 @@ void Ball::Update()
 	else if(CollidingItems.size() == 1)
 	{
 		// Check if we have hit the paddle
-		if (typeid(*(CollidingItems[0])) == typeid(PaddleRect))
+		if (typeid(*(CollidingItems[0])) == typeid(PaddleRect) && !m_PaddleHit)
 		{
+			// We have hit the paddle
+			m_PaddleHit = true;
+
 			CollidingPaddle = static_cast<PaddleRect*>(CollidingItems[0]);
 
 			// Flip the Y component
 			m_Velocity.setY(-m_Velocity.y());
 
 			// Then set the x component based on where it was hit
-			if (CollidingPaddle->GetPaddlePart() != PaddleRectPart::Middle)
+			// Do not add too much to the x component, we want mostly y movement
+			if (CollidingPaddle->GetPaddlePart() != PaddleRectPart::Middle && m_Velocity.x() < 0.4)
 			{
 				m_Velocity.setX(m_Velocity.x() + CollidingPaddle->GetReflectionAngle().x());
 			}
@@ -132,8 +159,10 @@ void Ball::Update()
 		}
 	}
 
+	// Normalizing the vector so the ball is always
+	// a constant speed
 	m_Velocity.normalize();
-	setPos(x() + 5.0 * m_Velocity.x(), y() + 5.0 * m_Velocity.y());
+	setPos(x() + m_Velocity.x(), y() + m_Velocity.y());
 
 	// Finally check if the ball has moved out of the field for some reason
 	if (x() < -rect().width() || x() > Game::Instance()->GetWndWidth()) Reset();
@@ -148,6 +177,7 @@ void Ball::Reset()
 {
 	if (!m_OffTheMap)
 	{
+		m_PaddleHit = false;
 		m_OffTheMap = true;
 		m_ResetTimer = new QTimer;
 		connect(m_ResetTimer, SIGNAL(timeout()), Game::Instance()->GetGameScene(), SLOT(ResetBall()));

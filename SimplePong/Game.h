@@ -52,7 +52,8 @@ public:
 	void SetGameScene();
 	void SetHelpScene() { m_View->setScene(m_HelpScene); }
 	void SetStartScene() { m_View->setScene(m_StartScene); }
-	void SetDifficulty(Difficulty Diff) { m_GameDifficulty = Diff; m_GameScene->SetDifficulty(Diff); }
+	void SetDifficulty(Difficulty Diff) { m_GameDifficulty = Diff; }
+	Difficulty GetDifficulty() { return m_GameDifficulty; }
 
 	virtual ~Game();
 };

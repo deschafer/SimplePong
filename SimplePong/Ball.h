@@ -23,6 +23,7 @@ private:
 	QTimer* m_BallTimer;	// Timer for the ball update cycle
 	QTimer* m_ResetTimer;	// Timer for the ball reset cycle
 	bool m_OffTheMap;		// Flag that checks if the ball is off the map
+	bool m_PaddleHit;		// Flag indicating if last object hit was a paddle
 
 public:
 	Ball();

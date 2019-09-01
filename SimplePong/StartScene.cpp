@@ -60,6 +60,8 @@ StartScene::StartScene()
 	m_HardButton.setFont(Font);
 	addWidget(&m_HardButton);
 
+	SetDifficulty(Game::Instance()->GetDifficulty());
+
 	// Connecting the difficulty buttons
 	connect(&m_EasyButton, SIGNAL(released()), this, SLOT(SetEasy()));
 	connect(&m_MediumButton, SIGNAL(released()), this, SLOT(SetMedium()));
@@ -113,7 +115,7 @@ void StartScene::SetDifficulty(Difficulty Diff)
 		m_EasyButton.setFont(Font);
 		break;
 	case Difficulty::Medium:
-		Game::Instance()->SetDifficulty(Difficulty::Easy);
+		Game::Instance()->SetDifficulty(Difficulty::Medium);
 		m_MediumButton.setFont(Font);
 		break;
 	case Difficulty::Impossible:

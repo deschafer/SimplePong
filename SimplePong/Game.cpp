@@ -12,7 +12,8 @@ const static int WndHeight = 700;
 
 Game::Game() : 
 	m_WndWidth(WndWidth),
-	m_WndHeight(WndHeight)
+	m_WndHeight(WndHeight),
+	m_GameDifficulty(Difficulty::Medium)
 {
 }
 
@@ -28,8 +29,8 @@ void Game::Initialize()
 {
 	// Creating our views and scenes
 	m_View = new QGraphicsView;
-	m_StartScene = new StartScene;
 	m_GameScene = new GameScene;
+	m_StartScene = new StartScene;
 	m_HelpScene = new HelpScene;
 	
 	// Setting up the view
@@ -43,7 +44,7 @@ void Game::Initialize()
 	m_View->show();
 
 	// Setting the difficulty before hand
-	SetDifficulty(Difficulty::Medium);
+	SetDifficulty(m_GameDifficulty);
 }
 
 //
@@ -53,6 +54,7 @@ void Game::Initialize()
 //
 void Game::SetGameScene()
 {
+	m_GameScene->SetDifficulty(m_GameDifficulty);
 	m_GameScene->Initialize();
 	m_View->setScene(m_GameScene);
 }
