@@ -1,3 +1,8 @@
+// 
+// Damon Schafer
+// 8/27/2019
+//
+
 #include "Game.h"
 
 Game* Game::m_Instance = nullptr;
@@ -17,7 +22,7 @@ Game::~Game()
 
 //
 // Initialize()
-// 
+// Initializes the object
 //
 void Game::Initialize()
 {
@@ -25,6 +30,7 @@ void Game::Initialize()
 	m_View = new QGraphicsView;
 	m_StartScene = new StartScene;
 	m_GameScene = new GameScene;
+	m_HelpScene = new HelpScene;
 	
 	// Setting up the view
 	m_View->setScene(m_StartScene);	// Add the current scene to the view
@@ -41,8 +47,9 @@ void Game::Initialize()
 }
 
 //
-//
-//
+// SetGameScene()
+// Initializes the games scene and
+// Sets the game scene as the active scene
 //
 void Game::SetGameScene()
 {

@@ -1,3 +1,8 @@
+// 
+// Damon Schafer
+// 8/27/2019
+//
+
 #pragma once
 #include "Paddle.h"
 
@@ -6,7 +11,7 @@ class ComputerPaddle : public Paddle
 	Q_OBJECT
 
 private:
-	int m_PaddleMovementSpeed;
+	int m_PaddleMovementSpeed;	// Speed of the paddle
 
 public:
 	ComputerPaddle();

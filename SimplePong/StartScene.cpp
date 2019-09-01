@@ -1,3 +1,8 @@
+// 
+// Damon Schafer
+// 8/27/2019
+//
+
 #include "StartScene.h"
 #include "Game.h"
 
@@ -13,7 +18,8 @@ static const int DiffButtonsBaseHeight = ButtonBasePositionHeight + 150;
 
 StartScene::StartScene()
 {
-	
+	// Coloring the background
+	setBackgroundBrush(Qt::black);
 
 	// Setting up the game name
 	QFont Font = QFont("Sans", 40, 1);
@@ -59,21 +65,36 @@ StartScene::StartScene()
 	connect(&m_MediumButton, SIGNAL(released()), this, SLOT(SetMedium()));
 	connect(&m_HardButton, SIGNAL(released()), this, SLOT(SetHard()));
 
-	// Coloring the background
-	setBackgroundBrush(Qt::black);
+	// Creating the help button
+	Font = QFont("Sans", 14, 1);
+	m_HelpButton.setGeometry(QRect(3 * Game::Instance()->GetWndWidth() / 4, 10, 150, 30));
+	m_HelpButton.setStyleSheet("QPushButton { background-color : black; color : white; border-radius : 0px }");
+	m_HelpButton.setText("Help");
+	m_HelpButton.setFont(Font);
+	addWidget(&m_HelpButton);
 
+	// Connecting the help button
+	connect(&m_HelpButton, SIGNAL(released()), this, SLOT(SetHelpScene()));
 }
 
 StartScene::~StartScene()
 {
 }
 
+//
+// Play()
+// Starts the game by setting the game scene
+//
 void StartScene::Play()
 {
 	Game::Instance()->SetGameScene();
-	//delete this;
 }
 
+//
+// SetDifficulty()
+// Sets the difficulty and handles the update of the
+// diff buttons to provide a user response.
+//
 void StartScene::SetDifficulty(Difficulty Diff)
 {
 	QFont Font("Sans", 15, 1);
@@ -84,6 +105,7 @@ void StartScene::SetDifficulty(Difficulty Diff)
 
 	Font.setBold(true);
 
+	// Bold the according difficulty selected
 	switch (Diff)
 	{
 	case Difficulty::Easy:
@@ -116,4 +138,9 @@ void StartScene::SetMedium()
 void StartScene::SetHard()
 {
 	SetDifficulty(Difficulty::Impossible);
+}
+
+void StartScene::SetHelpScene()
+{
+	Game::Instance()->SetHelpScene();
 }

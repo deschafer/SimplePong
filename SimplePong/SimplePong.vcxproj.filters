@@ -60,6 +60,9 @@
     <ClCompile Include="ComputerPaddle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HelpScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="SimplePong.h">
@@ -81,6 +84,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="StartScene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="HelpScene.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

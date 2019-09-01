@@ -1,3 +1,8 @@
+// 
+// Damon Schafer
+// 8/27/2019
+//
+
 #include "ComputerPaddle.h"
 #include "Game.h"
 
@@ -15,6 +20,11 @@ ComputerPaddle::~ComputerPaddle()
 {
 }
 
+//
+// Update()
+// Updates the cp paddle so that is always moving towards the
+// ball's position.
+//
 void ComputerPaddle::Update()
 {
 	// Get the ball position
@@ -31,13 +41,12 @@ void ComputerPaddle::Update()
 		{
 			TempMovement = Difference;
 		}
-
+		// Move all of the individual rectangles together
 		m_LeftRect.setPos(m_LeftRect.x() + TempMovement, m_LeftRect.y());
 		m_MiddleRect.setPos(m_MiddleRect.x() + TempMovement, m_MiddleRect.y());
 		m_RightRect.setPos(m_RightRect.x() + TempMovement, m_RightRect.y());
-
 	}
-	// Then move an increment towards the ball
+	// Then move an increment towards the ball other direction
 	else if (m_MiddleRect.x() > Point.rx() && (m_LeftRect.x() > 0))
 	{
 		int Difference = m_MiddleRect.x() - Point.rx();
@@ -45,7 +54,7 @@ void ComputerPaddle::Update()
 		{
 			TempMovement = Difference;
 		}
-
+		// Move all of the individual rectangles together
 		m_LeftRect.setPos(m_LeftRect.x() - TempMovement, m_LeftRect.y());
 		m_MiddleRect.setPos(m_MiddleRect.x() - TempMovement, m_MiddleRect.y());
 		m_RightRect.setPos(m_RightRect.x() - TempMovement, m_RightRect.y());

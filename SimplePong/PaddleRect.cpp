@@ -1,3 +1,8 @@
+// 
+// Damon Schafer
+// 8/27/2019
+//
+
 #include "PaddleRect.h"
 
 #include <qbrush.h>
@@ -7,6 +12,10 @@ PaddleRect::PaddleRect()
 {
 }
 
+//
+// PaddleRect()
+// Sets up the rect to be drawn correctly
+//
 PaddleRect::PaddleRect(PaddleRectPart Part, QRect Rect) :
 	m_Part(Part)
 {

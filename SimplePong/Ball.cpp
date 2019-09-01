@@ -1,3 +1,8 @@
+// 
+// Damon Schafer
+// 8/27/2019
+//
+
 #include "Ball.h"
 #include "Game.h"
 
@@ -8,6 +13,10 @@ Ball::Ball()
 {
 }
 
+//
+//
+//
+//
 Ball::Ball(int X, int Y, int Width, int Height, QVector2D Velocity) :
 	QGraphicsEllipseItem(X, Y, Width, Height),
 	m_Velocity(Velocity),
@@ -75,6 +84,8 @@ void Ball::Update()
 	PaddleRect* CollidingPaddle;								// The paddle that has been hit
 	QList<QGraphicsItem *> CollidingItems = collidingItems();	// The list of items being hit
 
+	// Check if we have collided with the QLabel score labels
+	// If we have, just remove these collisions altogether
 	for (int i = 0; i < CollidingItems.size(); i++)
 	{
 		if (typeid(*(CollidingItems[i])) == typeid(QGraphicsProxyWidget))
@@ -84,6 +95,7 @@ void Ball::Update()
 	}
 
 	// If we have hit more than one, just reflect in order to reset the ball
+	// Handles the case if more than one part of the paddle was hit
 	if (CollidingItems.size() > 1)
 	{
 		m_Velocity.setY(-m_Velocity.y());
@@ -95,13 +107,17 @@ void Ball::Update()
 		{
 			CollidingPaddle = static_cast<PaddleRect*>(CollidingItems[0]);
 
+			// Flip the Y component
 			m_Velocity.setY(-m_Velocity.y());
 
+			// Then set the x component based on where it was hit
 			if (CollidingPaddle->GetPaddlePart() != PaddleRectPart::Middle)
 			{
 				m_Velocity.setX(m_Velocity.x() + CollidingPaddle->GetReflectionAngle().x());
 			}
 
+			// If the paddle is moving, move the ball as well to prevent
+			// successive collisions
 			if (CollidingPaddle->GetParentPaddle()->IsMoving())
 			{
 				if (CollidingPaddle->GetPaddlePart() == PaddleRectPart::Left)
@@ -116,7 +132,7 @@ void Ball::Update()
 		}
 	}
 
-	///m_Velocity.normalize();
+	//m_Velocity.normalize();
 	setPos(x() + m_Velocity.x(), y() + m_Velocity.y());
 
 	// Finally check if the ball has moved out of the field for some reason
@@ -125,7 +141,8 @@ void Ball::Update()
 
 //
 // Reset()
-//
+// Signals the game to reset the ball after two seconds 
+// of it leaving the screen
 //
 void Ball::Reset()
 {

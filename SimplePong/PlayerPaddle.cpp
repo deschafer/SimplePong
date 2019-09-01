@@ -1,3 +1,8 @@
+// 
+// Damon Schafer
+// 8/27/2019
+//
+
 #include "PlayerPaddle.h"
 #include "Game.h"
 
@@ -20,8 +25,11 @@ PlayerPaddle::PlayerPaddle(QRect Rect) :
 }
 
 //
-//
-//
+// keyPressEvent()
+// Overriden function that handles the keypresses
+// to move the paddle accordingly
+// We mark when we have pressed a key, and keep movement until
+// it is released
 //
 void PlayerPaddle::keyPressEvent(QKeyEvent* Event)
 {
@@ -36,8 +44,8 @@ void PlayerPaddle::keyPressEvent(QKeyEvent* Event)
 }
 
 //
-//
-//
+// keyReleaseEvent()
+// Stop movement when the key is released.
 //
 void PlayerPaddle::keyReleaseEvent(QKeyEvent* Event)
 {
@@ -51,6 +59,12 @@ void PlayerPaddle::keyReleaseEvent(QKeyEvent* Event)
 	}
 }
 
+//
+// Update()
+// Called by a qtimer signal to constantly 
+// set the position of the paddle based off the
+// last recorded key events
+//
 void PlayerPaddle::Update()
 {
 	// Make sure this is always in focus

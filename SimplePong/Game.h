@@ -2,6 +2,9 @@
 // Damon E Schafer
 // 8/27/2019
 // 
+// Damon Schafer
+// 8/27/2019
+//
 #pragma once
 
 #include <qgraphicsview.h>
@@ -9,6 +12,7 @@
 
 #include "StartScene.h"
 #include "GameScene.h"
+#include "HelpScene.h"
 
 enum class Difficulty { Easy, Medium, Impossible};
 
@@ -26,10 +30,10 @@ private:
 	QGraphicsView* m_View;		// The main view of the application
 	GameScene* m_GameScene;		// Scene where the actual game of pong takes place
 	StartScene* m_StartScene;	// First menu scene on game startup
+	HelpScene* m_HelpScene;		// Scene with all help contents
 	int m_WndWidth;				// Window dimensions
 	int m_WndHeight;			// ..
 	Difficulty m_GameDifficulty;// The current challenge setting
-
 
 public:
 
@@ -46,6 +50,8 @@ public:
 	QGraphicsView* GetView() { return m_View; }
 	GameScene* GetGameScene() { return m_GameScene; }
 	void SetGameScene();
+	void SetHelpScene() { m_View->setScene(m_HelpScene); }
+	void SetStartScene() { m_View->setScene(m_StartScene); }
 	void SetDifficulty(Difficulty Diff) { m_GameDifficulty = Diff; m_GameScene->SetDifficulty(Diff); }
 
 	virtual ~Game();
