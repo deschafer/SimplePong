@@ -122,18 +122,18 @@ void Ball::Update()
 			{
 				if (CollidingPaddle->GetPaddlePart() == PaddleRectPart::Left)
 				{
-					setPos(x() - 3, y());
+					setPos(x() - 5, y());
 				}
 				else if (CollidingPaddle->GetPaddlePart() == PaddleRectPart::Right)
 				{
-					setPos(x() + 3, y());
+					setPos(x() + 5, y());
 				}
 			}
 		}
 	}
 
-	//m_Velocity.normalize();
-	setPos(x() + m_Velocity.x(), y() + m_Velocity.y());
+	m_Velocity.normalize();
+	setPos(x() + 5.0 * m_Velocity.x(), y() + 5.0 * m_Velocity.y());
 
 	// Finally check if the ball has moved out of the field for some reason
 	if (x() < -rect().width() || x() > Game::Instance()->GetWndWidth()) Reset();

@@ -8,7 +8,7 @@
 
 #include <qevent.h>
 
-const static int PaddleSpeed = 2;
+const static int PaddleSpeed = 4;
 
 
 PlayerPaddle::PlayerPaddle()

@@ -30,7 +30,8 @@ GameScene::GameScene() :
 	m_BottomScore(0),
 	m_Win(false),
 	m_TopScoreLabel(new QLabel()),
-	m_BottomScoreLabel(new QLabel())
+	m_BottomScoreLabel(new QLabel()),
+	m_PongBall(nullptr)
 {
 }
 
@@ -72,14 +73,7 @@ void GameScene::Initialize()
 
 	SetScene();	// Color the Scene
 
-	// Creating the initial ball
-	m_PongBall = new Ball(
-		Game::Instance()->GetWndWidth() / 2,
-		Game::Instance()->GetWndHeight() / 2,
-		BallWidth,
-		BallHeight,
-		QVector2D(0, (rand() % 2 == 0) ? -BallSpeed : BallSpeed));
-	addItem(m_PongBall);	// Add this item to this scene
+	ResetBall();// Add the ball to the scene
 
 	// Creating the players paddle
 	m_PlayerPaddle = new PlayerPaddle(
@@ -193,8 +187,15 @@ void GameScene::ResetBall()
 	if (m_Win) return;
 
 	// Delete the old ball
-	removeItem(m_PongBall);
-	delete m_PongBall;
+	if (m_PongBall)
+	{
+		removeItem(m_PongBall);
+		delete m_PongBall;
+	}
+
+	QVector2D Velocity = 
+		QVector2D((rand() % 2 == 0) ? -rand() % 3 : rand() % 3, 
+		(rand() % 2 == 0) ? -BallSpeed : BallSpeed);
 
 	// Creating the new ball
 	m_PongBall = new Ball(
@@ -202,7 +203,7 @@ void GameScene::ResetBall()
 		Game::Instance()->GetWndHeight() / 2,
 		BallWidth,
 		BallHeight,
-		QVector2D(0, (rand() % 2 == 0) ? -BallSpeed : BallSpeed));
+		Velocity);
 	addItem(m_PongBall);	// Add this item to this scene
 }
 
